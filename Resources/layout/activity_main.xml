@@ -3,11 +3,31 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/SelectDateFrame"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/MonthName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Ноябрь"
+            android:textColor="#fff"
+            android:textSize="38dp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/YearName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="2019"
+            android:layout_gravity="top|right"
+            android:textColor="#fff"
+            android:textSize="28dp"/>
+    </FrameLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#220000FF">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
@@ -16,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Пн"
-                android:textColor="#000000"
+                android:textColor="@android:color/white"
                 android:textSize="22dp"
                 android:gravity="center"/>
             <TextView
@@ -24,7 +44,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Вт"
-                android:textColor="#000000"
+                android:textColor="@android:color/white"
                 android:textSize="22dp"
                 android:gravity="center"/>
             <TextView
@@ -32,7 +52,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Ср"
-                android:textColor="#000000"
+                android:textColor="@android:color/white"
                 android:textSize="22dp"
                 android:gravity="center"/>
             <TextView
@@ -40,7 +60,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Чт"
-                android:textColor="#000000"
+                android:textColor="@android:color/white"
                 android:textSize="22dp"
                 android:gravity="center"/>
             <TextView
@@ -48,16 +68,15 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Пт"
-                android:textColor="#000000"
+                android:textColor="@android:color/white"
                 android:textSize="22dp"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#22FF0000"
                 android:text="Сб"
-                android:textColor="#000000"
+                android:textColor="@color/color_Red"
                 android:textSize="22dp"
                 android:gravity="center"/>
             <TextView
@@ -65,8 +84,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Вс"
-                android:background="#22FF0000"
-                android:textColor="#000000"
+                android:textColor="@color/color_Red"
                 android:textSize="22dp"
                 android:gravity="center"/>
         </LinearLayout>
@@ -98,12 +116,15 @@
     </LinearLayout>
     <EditText
         android:id="@+id/AllSalary"
-        android:text="30000"
+        android:text="3000"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
     <TextView
         android:id="@+id/ResultSalary"
         android:text="30000"
+        android:textColor="@android:color/white"
         android:textSize="18dp"
         android:gravity="center_vertical"
         android:paddingLeft="3dp"

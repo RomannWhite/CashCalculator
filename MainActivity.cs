@@ -14,12 +14,13 @@ namespace CashCalculator
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-        DateTime GetStartDate()
-        {
-            DateTime StartDate = DateTime.Now;
-            StartDate = StartDate.AddDays(-StartDate.Day);
-            return StartDate.AddDays(-(int)StartDate.DayOfWeek + 1);
-        }
+        TextView MonthName,
+            YearName,
+            ResultSalary;
+        EditText AllSalary;
+        LinearLayout[] Weeks;
+        DateTime SelectedDate = DateTime.Now;
+        float LastX = 0;
         int GetDayOfWeek(DateTime Date) => ((int)Date.AddDays(0).DayOfWeek + 6) % 7;
         View GetItemView(int LayoutID, ViewGroup ParentLayout) => LayoutInflater.From(this).Inflate(LayoutID, ParentLayout, false);
         protected override void OnCreate(Bundle savedInstanceState)
@@ -31,7 +32,7 @@ namespace CashCalculator
         {
             base.OnStart();
 
-            LinearLayout[] Weeks = new LinearLayout[]
+            Weeks = new LinearLayout[]
             {
                 FindViewById<LinearLayout>(Resource.Id.Week1),
                 FindViewById<LinearLayout>(Resource.Id.Week2),
@@ -40,30 +41,58 @@ namespace CashCalculator
                 FindViewById<LinearLayout>(Resource.Id.Week5),
                 FindViewById<LinearLayout>(Resource.Id.Week6)
             };
-
-            EditText AllSalary = FindViewById<EditText>(Resource.Id.AllSalary);
-            TextView ResultSalary = FindViewById<TextView>(Resource.Id.ResultSalary);
+            FrameLayout SelectDateFrame = FindViewById<FrameLayout>(Resource.Id.SelectDateFrame);
+            SelectDateFrame.Touch += (s, e) =>
+            {
+                if(e.Event.Action == MotionEventActions.Down)
+                {
+                    LastX = e.Event.GetX();
+                    return;
+                }
+                if(e.Event.Action == MotionEventActions.Up || e.Event.Action == MotionEventActions.Cancel)
+                {
+                    float Delta = LastX - e.Event.GetX();
+                    if(Math.Abs(Delta) >= 100)
+                    {
+                        SelectedDate = SelectedDate.AddMonths(Delta > 0 ? +1 : -1);
+                        RefrashView();
+                    }
+                }
+            };
+            AllSalary = FindViewById<EditText>(Resource.Id.AllSalary);
+            ResultSalary = FindViewById<TextView>(Resource.Id.ResultSalary);
             AllSalary.TextChanged += (s, e) =>
             {
-                int WorkDays = CalendarDays.Where(d => !d.IsDayOff).Count();
-                int WorkedDays = CalendarDays.Where(d => !d.IsDayOff && d.IsWorked).Count() + 2 * CalendarDays.Where(d => d.IsDayOff && d.IsWorked).Count();
-                ResultSalary.Text = (float.Parse(AllSalary.Text) / (float)WorkDays * WorkedDays).ToString(".00");
+                int WorkDays = CalendarDays.Where(d => d.IsCurrentMonth && !d.IsDayOff).Count();
+                int WorkedDays = CalendarDays.Where(d => d.IsCurrentMonth && !d.IsDayOff && d.IsWorked).Count() + 2 * CalendarDays.Where(d => d.IsCurrentMonth && d.IsDayOff && d.IsWorked).Count();
+                if (float.TryParse(AllSalary.Text, out float Salary))
+                    ResultSalary.Text = (Salary / (float)WorkDays * WorkedDays).ToString("0");
             };
+            MonthName = FindViewById<TextView>(Resource.Id.MonthName);
+            YearName = FindViewById<TextView>(Resource.Id.YearName);
+            RefrashView();
+        }
 
-            DateTime Date = GetStartDate();
+        void RefrashView()
+        {
+            MonthName.Text = SelectedDate.GetMonthNameRus();
+            YearName.Text = SelectedDate.ToString("yyyy");
+            DateTime Date = SelectedDate.GetStartDate();
+            CalendarDays = new List<CalendarDay>();
             for (int w = 0; w < 6; w++)
             {
                 Weeks[w].RemoveAllViews();
                 for (int d = 0; d < 7; d++)
                 {
-                    CalendarDay NewDay = new CalendarDay(Date, DateTime.Now.Month);
+                    CalendarDay NewDay = new CalendarDay(Date, SelectedDate.Month);
                     CalendarDays.Add(NewDay);
                     Weeks[w].AddView(NewDay.GetView(this, Weeks[w]));
                     Date = Date.AddDays(1);
                 }
             }
         }
-        List<CalendarDay> CalendarDays = new List<CalendarDay>();
+
+        List<CalendarDay> CalendarDays;
     }
 
     class CalendarDay : Java.Lang.Object
@@ -117,36 +146,33 @@ namespace CashCalculator
         {
             Date = date;
             IsCurrentMonth = date.Month == month;
+            
             IsDayOff = date.GetDayOfWeek() > 4;
             if (!IsDayOff)
                 IsDayOff = Holidays.Contains(date.Date);
+
+            if (IsCurrentMonth && !IsDayOff)
+                IsWorked = true;
         }
 
         public View GetView(Context C, ViewGroup ParentLayout)
         {
             View Day = LayoutInflater.From(C).Inflate(Resource.Layout.item_day, ParentLayout, false);
             Day.FindViewById<TextView>(Resource.Id.Tittle).Text = Date.Day.ToString();
-            if (IsDayOff)
-                Day.FindViewById(Resource.Id.IsHoliday).Visibility = ViewStates.Visible;
-            if (!IsCurrentMonth)
+            if(IsCurrentMonth)
             {
-                Day.SetBackgroundColor(Color.Argb(0x44, 0x00, 0x00, 0x00));
-                Day.FindViewById(Resource.Id.IsWorked).Visibility = ViewStates.Gone;
+                Day.FindViewById<TextView>(Resource.Id.Tittle).SetTextColor(IsDayOff ? Color.Red : Color.White);
+                Day.FindViewById(Resource.Id.IsWorked).Visibility = IsWorked ? ViewStates.Visible : ViewStates.Gone;
+
+                Day.Click += (s, e) => Day.FindViewById(Resource.Id.IsWorked).Visibility =
+                    (IsWorked = !IsWorked) ? ViewStates.Visible : ViewStates.Gone;
+                Day.LongClick += (s, e) => Day.FindViewById<TextView>(Resource.Id.Tittle).SetTextColor(
+                    (IsDayOff = !IsDayOff) ? Color.Red : Color.White);
             }
             else
             {
-                Day.Click += (s, e) =>
-                {
-                    IsWorked = !IsWorked;
-                    if (IsWorked)
-                        Day.FindViewById(Resource.Id.IsWorked).Visibility = ViewStates.Visible;
-                    else
-                        Day.FindViewById(Resource.Id.IsWorked).Visibility = ViewStates.Gone;
-                };
-                Day.LongClick += (s, e) =>
-                {
-                    IsDayOff = !IsDayOff;
-                };
+                Day.FindViewById<TextView>(Resource.Id.Tittle).SetTextColor(Color.Gray);
+                Day.FindViewById(Resource.Id.IsWorked).Visibility = ViewStates.Gone;
             }
             return Day;
         }
@@ -155,5 +181,21 @@ namespace CashCalculator
     static class Extensions
     {
         public static int GetDayOfWeek(this DateTime Date) => ((int)Date.AddDays(0).DayOfWeek + 6) % 7;
+
+        static string[] Months = new string[]
+            {
+                "Декабрь",
+                "Январь", "Февраль", "Март",
+                "Апрель", "Май", "Июнь",
+                "Июль", "Август", "Сентябрь",
+                "Октябрь", "Ноябрь", "Декабрь"
+            };
+        public static string GetMonthNameRus(this DateTime Date) => Months[Date.Month];
+
+        public static DateTime GetStartDate(this DateTime Date)
+        {
+            Date = Date.AddDays(-Date.Day);
+            return Date.AddDays(-(int)Date.DayOfWeek + 1);
+        }
     }
 }

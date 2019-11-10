@@ -15,6 +15,7 @@ FrameLayout;obj\Debug\90\res\layout\activity_main.xml
 FrameLayout;obj\Debug\90\res\layout\item_day.xml
 item;obj\Debug\90\res\values\styles.xml
 LinearLayout;obj\Debug\90\res\layout\activity_main.xml
+path;obj\Debug\90\res\drawable\checkmark.xml
 paths;C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\lp\35\jl\res\xml\xamarin_essentials_fileprovider_file_paths.xml
 resources;obj\Debug\90\res\values\colors.xml
 resources;obj\Debug\90\res\values\dimens.xml
@@ -25,4 +26,5 @@ string;obj\Debug\90\res\values\strings.xml
 style;obj\Debug\90\res\values\styles.xml
 TextView;obj\Debug\90\res\layout\activity_main.xml
 TextView;obj\Debug\90\res\layout\item_day.xml
+vector;obj\Debug\90\res\drawable\checkmark.xml
 View;obj\Debug\90\res\layout\item_day.xml
