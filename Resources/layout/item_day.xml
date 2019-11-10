@@ -1,0 +1,29 @@
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:layout_weight="1">
+    <View
+        android:visibility="gone"
+        android:id="@+id/IsHoliday"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#FFAAAA"/>
+    <TextView
+        android:id="@+id/Tittle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="01"
+        android:textColor="@android:color/black"
+        android:textSize="22dp"
+        android:gravity="center"/>
+    <View
+        android:id="@+id/IsWorked"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_weight="1"
+        android:background="#0000FF"
+        android:layout_gravity="right|top"/>
+</FrameLayout>
