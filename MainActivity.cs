@@ -7,6 +7,7 @@ using Android.App;
 using Android.OS;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace CashCalculator
 {
@@ -40,18 +41,29 @@ namespace CashCalculator
                 FindViewById<LinearLayout>(Resource.Id.Week6)
             };
 
-            DateTime StartDate = GetStartDate();
+            EditText AllSalary = FindViewById<EditText>(Resource.Id.AllSalary);
+            TextView ResultSalary = FindViewById<TextView>(Resource.Id.ResultSalary);
+            AllSalary.TextChanged += (s, e) =>
+            {
+                int WorkDays = CalendarDays.Where(d => !d.IsDayOff).Count();
+                int WorkedDays = CalendarDays.Where(d => !d.IsDayOff && d.IsWorked).Count() + 2 * CalendarDays.Where(d => d.IsDayOff && d.IsWorked).Count();
+                ResultSalary.Text = (float.Parse(AllSalary.Text) / (float)WorkDays * WorkedDays).ToString(".00");
+            };
+
+            DateTime Date = GetStartDate();
             for (int w = 0; w < 6; w++)
             {
+                Weeks[w].RemoveAllViews();
                 for (int d = 0; d < 7; d++)
                 {
-                    View Day = GetItemView(Resource.Layout.item_day, Weeks[w]);
-                    Day.FindViewById<TextView>(Resource.Id.Tittle).Text = StartDate.Day.ToString();
-                    Weeks[w].AddView(Day);
-                    StartDate = StartDate.AddDays(1);
+                    CalendarDay NewDay = new CalendarDay(Date, DateTime.Now.Month);
+                    CalendarDays.Add(NewDay);
+                    Weeks[w].AddView(NewDay.GetView(this, Weeks[w]));
+                    Date = Date.AddDays(1);
                 }
             }
         }
+        List<CalendarDay> CalendarDays = new List<CalendarDay>();
     }
 
     class CalendarDay : Java.Lang.Object
@@ -101,7 +113,7 @@ namespace CashCalculator
         public bool IsDayOff;
         public bool IsWorked;
         public bool IsCurrentMonth;
-        CalendarDay(DateTime date, int month)
+        public CalendarDay(DateTime date, int month)
         {
             Date = date;
             IsCurrentMonth = date.Month == month;
@@ -119,6 +131,7 @@ namespace CashCalculator
             if (!IsCurrentMonth)
             {
                 Day.SetBackgroundColor(Color.Argb(0x44, 0x00, 0x00, 0x00));
+                Day.FindViewById(Resource.Id.IsWorked).Visibility = ViewStates.Gone;
             }
             else
             {
