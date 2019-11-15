@@ -114,19 +114,43 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"/>
     </LinearLayout>
-    <EditText
-        android:id="@+id/AllSalary"
-        android:text="3000"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/colorAccent"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/AllSalary"
+            android:text="30000"
+            android:textColor="@android:color/white"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginRight="100dp"
+            android:layout_marginLeft="100dp"/>
+        <Button
+            android:id="@+id/MinusButton"
+            android:background="@drawable/minusbutton"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_margin="0.5dp"/>
+        <Button
+            android:id="@+id/PlusButton"
+            android:background="@drawable/plusbutton"
+            android:layout_gravity="right"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_margin="0.5dp"/>
+    </FrameLayout>
     <TextView
         android:id="@+id/ResultSalary"
-        android:text="30000"
+        android:text="30000 = 1500 * 20 + 1500 * 0 * 2"
         android:textColor="@android:color/white"
         android:textSize="18dp"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
         android:layout_width="match_parent"

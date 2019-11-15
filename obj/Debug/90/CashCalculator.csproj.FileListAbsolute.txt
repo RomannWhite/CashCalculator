@@ -281,3 +281,10 @@ C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\stamp\_GeneratePackageM
 C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\stamp\_ResolveLibraryProjectImports.stamp
 C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\CashCalculator.csprojAssemblyReference.cache
 C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\res\drawable\checkmark.xml
+C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\android\src\md5b52cddee5f89390b5dbfe3b32118fd6e\MainActivity.java
+C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\res\drawable\plus.xml
+C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\res\drawable\plusbutton.xml
+C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\res\drawable\minus.xml
+C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\res\drawable\minusbutton.xml
+C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\res\drawable\blackplus.xml
+C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\res\drawable\blackminus.xml
