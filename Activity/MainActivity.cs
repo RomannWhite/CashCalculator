@@ -33,8 +33,9 @@ namespace CashCalculator.Activity
             ResultSalary;
         EditText AllSalary;
         View AllSalaryMask;
-        Button MinusButton,
-            PlusButton;
+        ImageButton MinusButton,
+            PlusButton,
+            Settings;
         LinearLayout[] Weeks;
         DateTime SelectedDate = DateTime.Now;
         /// <summary>
@@ -61,8 +62,9 @@ namespace CashCalculator.Activity
             };
             FrameLayout SelectDateFrame = FindViewById<FrameLayout>(Resource.Id.SelectDateFrame);
             AllSalary = FindViewById<EditText>(Resource.Id.AllSalary);
-            MinusButton = FindViewById<Button>(Resource.Id.MinusButton);
-            PlusButton = FindViewById<Button>(Resource.Id.PlusButton);
+            MinusButton = FindViewById<ImageButton>(Resource.Id.MinusButton);
+            PlusButton = FindViewById<ImageButton>(Resource.Id.PlusButton);
+            Settings = FindViewById<ImageButton>(Resource.Id.Settings);
             AllSalaryMask = FindViewById(Resource.Id.AllSalaryMask);
             ResultSalary = FindViewById<TextView>(Resource.Id.ResultSalary);
             MonthName = FindViewById<TextView>(Resource.Id.MonthName);
@@ -85,7 +87,7 @@ namespace CashCalculator.Activity
             };
             MinusButton.Click += (s, e) =>
             {
-                if(Salary >= 1000)
+                if (Salary >= 1000)
                     Salary -= 1000;
                 RefrashCash();
             };
@@ -95,20 +97,14 @@ namespace CashCalculator.Activity
                     Salary += 1000;
                 RefrashCash();
             };
-            int PreviousLength = 0;
             AllSalary.TextChanged += (s, e) =>
             {
-                if(AllSalary.Text.Length != PreviousLength)
+                if (AllSalary.Text.Length > 8)
                 {
-                    //Переделать на свойство Salary (get; set;)
-                    PreviousLength = AllSalary.Text.Length;
-                    if (AllSalary.Text.Length > 8)
-                    {
-                        AllSalary.Text = AllSalary.Text.Substring(0, 8);
-                        AllSalary.SetSelection(AllSalary.Text.Length);
-                    }
-                    RefrashCash();
+                    AllSalary.Text = AllSalary.Text.Substring(0, 8);
+                    AllSalary.SetSelection(AllSalary.Text.Length);
                 }
+                RefrashCash();
             };
             AllSalary.EditorAction += (s, e) =>
             {

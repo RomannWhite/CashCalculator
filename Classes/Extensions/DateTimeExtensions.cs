@@ -19,7 +19,10 @@ namespace CashCalculator.Classes.Extensions
         public static DateTime GetStartDate(this DateTime Date)
         {
             Date = Date.AddDays(-Date.Day);
-            return Date.AddDays(-(int)Date.DayOfWeek + 1);
+            Date = Date.AddDays(-(int)Date.DayOfWeek + 1);
+            if (Date.Day == 1)
+                Date = Date.AddDays(-7);
+            return Date;
         }
     }
 }

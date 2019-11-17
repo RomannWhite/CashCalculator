@@ -1,1 +1,0 @@
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android"><item><shape android:shape="rectangle"><solid android:color="#000" /><size android:width="60dp" android:height="60dp" /></shape></item><item android:drawable="@drawable/cashiconpng" android:gravity="center" android:width="175dp" android:height="175dp"></item></layer-list>

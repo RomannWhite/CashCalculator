@@ -86,6 +86,9 @@ namespace CashCalculator.Classes
             Day.FindViewById<TextView>(Resource.Id.Tittle).Text = Date.Day.ToString();
             if (IsCurrentMonth)
             {
+                if (Date.Date == DateTime.Now.Date)
+                    Day.SetBackgroundDrawable(C.GetDrawable(Resource.Drawable.TodayBorder));
+
                 Day.FindViewById<TextView>(Resource.Id.Tittle).SetTextColor(IsDayOff ? Color.Red : Color.White);
                 Day.FindViewById(Resource.Id.IsWorked).Visibility = IsWorked ? ViewStates.Visible : ViewStates.Gone;
 
@@ -104,6 +107,7 @@ namespace CashCalculator.Classes
             }
             else
             {
+                Day.FindViewById<TextView>(Resource.Id.Tittle).SetBackgroundColor(Color.Argb(0x11, 0xFF, 0xFF, 0xFF));
                 Day.FindViewById<TextView>(Resource.Id.Tittle).SetTextColor(Color.Gray);
                 Day.FindViewById(Resource.Id.IsWorked).Visibility = ViewStates.Gone;
             }
