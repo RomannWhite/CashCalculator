@@ -60,7 +60,9 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activity\CustomActivity.cs" />
     <Compile Include="Activity\MainActivity.cs" />
+    <Compile Include="Activity\AppSettings.cs" />
     <Compile Include="Classes\CalendarDay.cs" />
     <Compile Include="Classes\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -99,7 +101,7 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_round.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\plus.xml" />
+    <AndroidResource Include="Resources\drawable\Plus.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.1" />
@@ -116,19 +118,19 @@
     <AndroidResource Include="Resources\drawable\CheckMark.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\plusbutton.xml" />
+    <AndroidResource Include="Resources\drawable\PlusButton.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\minus.xml" />
+    <AndroidResource Include="Resources\drawable\Minus.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\minusbutton.xml" />
+    <AndroidResource Include="Resources\drawable\MinusButton.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\blackplus.xml" />
+    <AndroidResource Include="Resources\drawable\BlackPlus.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\blackminus.xml" />
+    <AndroidResource Include="Resources\drawable\BlackMinus.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\CashIcon.png" />
@@ -137,10 +139,10 @@
     <AndroidResource Include="Resources\drawable\CashIconPng.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\backgroundfile.xml" />
+    <AndroidResource Include="Resources\drawable\BackgroundFile.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\settingsbutton.xml" />
+    <AndroidResource Include="Resources\drawable\SettingsButton.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\TodayBorder.xml" />
@@ -149,7 +151,15 @@
     <AndroidResource Include="Resources\drawable\ButtonBackground.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\SettingsButtonBackground.xml" />
+    <AndroidResource Include="Resources\drawable\CorneredButtonBackground.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_settings.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\BackButton.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

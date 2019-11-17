@@ -36,7 +36,7 @@
             android:id="@+id/Settings"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:background="@drawable/SettingsButtonBackground"
+            android:background="@drawable/CorneredButtonBackground"
             android:scaleType="fitCenter"
             android:padding="7dp"
             android:src="@drawable/settingsbutton"

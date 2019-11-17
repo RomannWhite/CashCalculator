@@ -1,7 +1,6 @@
 ﻿using CashCalculator.Classes.Extensions;
 using Android.Views.InputMethods;
 using System.Collections.Generic;
-using Android.Support.V7.App;
 using CashCalculator.Classes;
 using Android.Widget;
 using Android.Views;
@@ -12,20 +11,26 @@ using System;
 
 namespace CashCalculator.Activity
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
-    public class MainActivity : AppCompatActivity
+    [Activity(
+        Label = "@string/app_name",
+        Theme = "@style/AppTheme.NoActionBar",
+        //LaunchMode = Android.Content.PM.LaunchMode.SingleTask,
+        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait,
+        MainLauncher = true)]
+    public class MainActivity : CustomActivity
     {
         /// <summary>
         /// Ставка в месяц
         /// </summary>
-        int Salary
+        void SetSalary(int value)
         {
-            get => int.TryParse(AllSalary.Text, out int value) ? value : Salary = 0;
-            set => RunOnUiThread(() =>
-            {
-                AllSalary.Text = value.ToString();
-                AllSalary.SetSelection(AllSalary.Text.Length);
-            });
+            Salary = value;
+            if (AllSalary != null)
+                RunOnUiThread(() =>
+                {
+                    AllSalary.Text = value.ToString();
+                    AllSalary.SetSelection(AllSalary.Text.Length);
+                });
         }
         List<CalendarDay> CalendarDays;
         TextView MonthName,
@@ -47,10 +52,6 @@ namespace CashCalculator.Activity
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
-        }
-        protected override void OnStart()
-        {
-            base.OnStart();
             Weeks = new LinearLayout[]
             {
                 FindViewById<LinearLayout>(Resource.Id.Week1),
@@ -62,9 +63,11 @@ namespace CashCalculator.Activity
             };
             FrameLayout SelectDateFrame = FindViewById<FrameLayout>(Resource.Id.SelectDateFrame);
             AllSalary = FindViewById<EditText>(Resource.Id.AllSalary);
+            AllSalary.Text = Salary.ToString();
             MinusButton = FindViewById<ImageButton>(Resource.Id.MinusButton);
             PlusButton = FindViewById<ImageButton>(Resource.Id.PlusButton);
             Settings = FindViewById<ImageButton>(Resource.Id.Settings);
+            Settings.Click += (s, e) => StartNewActivity(typeof(AppSettings));
             AllSalaryMask = FindViewById(Resource.Id.AllSalaryMask);
             ResultSalary = FindViewById<TextView>(Resource.Id.ResultSalary);
             MonthName = FindViewById<TextView>(Resource.Id.MonthName);
@@ -88,13 +91,13 @@ namespace CashCalculator.Activity
             MinusButton.Click += (s, e) =>
             {
                 if (Salary >= 1000)
-                    Salary -= 1000;
+                    SetSalary(Salary - 1000);
                 RefrashCash();
             };
             PlusButton.Click += (s, e) =>
             {
                 if (Salary < 100000)
-                    Salary += 1000;
+                    SetSalary(Salary + 1000);
                 RefrashCash();
             };
             AllSalary.TextChanged += (s, e) =>
@@ -135,7 +138,6 @@ namespace CashCalculator.Activity
         }
         void RefrashCash()
         {
-            int OverWorkCff = 2;
             //Рабочих дней
             int WorkDays = CalendarDays.Where(c => c.IsCurrentMonth).Where(c => !c.IsDayOff).Count();
             //ЗП за день
@@ -146,10 +148,10 @@ namespace CashCalculator.Activity
             //Переработка
             int OverWorkedDays = Math.Max(WorkedDays - WorkDays, 0);
             //Итого
-            int ResultCash = CashPerDay * (WorkedDays - OverWorkedDays) + CashPerDay * OverWorkedDays * OverWorkCff;
+            int ResultCash = CashPerDay * (WorkedDays - OverWorkedDays) + CashPerDay * OverWorkedDays * OverWorkCoefficient;
             ResultSalary.Text = ResultCash.ToString() + " = " + CashPerDay.ToString() + " * " + (WorkedDays - OverWorkedDays).ToString();
             if (OverWorkedDays > 0)
-                ResultSalary.Text += " + " +  CashPerDay.ToString() + " * " + OverWorkedDays.ToString() + " * " + OverWorkCff.ToString();
+                ResultSalary.Text += " + " + CashPerDay.ToString() + " * " + OverWorkedDays.ToString() + " * " + OverWorkCoefficient.ToString();
         }
         void RefrashView()
         {
