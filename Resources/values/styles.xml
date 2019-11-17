@@ -3,7 +3,7 @@
     <item name="colorAccent">@color/colorAccent</item>
     <item name="colorPrimary">@color/color_Black</item>
     <item name="colorPrimaryDark">@color/color_Black</item>
-    <item name="android:windowBackground">@color/color_Black</item>
+    <item name="android:windowBackground">@drawable/backgroundfile</item>
     <item name="android:colorBackground">@color/color_Black</item>
     <item name="colorAccent">@color/colorAccent</item>
     <item name="windowNoTitle">true</item>

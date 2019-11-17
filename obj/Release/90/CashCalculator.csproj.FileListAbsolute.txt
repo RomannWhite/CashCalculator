@@ -210,3 +210,6 @@ C:\VSProjects\CashCalculator\CashCalculator\obj\Release\90\res\drawable\minusbut
 C:\VSProjects\CashCalculator\CashCalculator\obj\Release\90\res\drawable\blackplus.xml
 C:\VSProjects\CashCalculator\CashCalculator\obj\Release\90\res\drawable\blackminus.xml
 C:\VSProjects\CashCalculator\CashCalculator\obj\Release\90\android\src\md5b52cddee5f89390b5dbfe3b32118fd6e\MainActivity.java
+C:\VSProjects\CashCalculator\CashCalculator\obj\Release\90\res\drawable\cashicon.png
+C:\VSProjects\CashCalculator\CashCalculator\obj\Release\90\res\drawable\cashiconpng.xml
+C:\VSProjects\CashCalculator\CashCalculator\obj\Release\90\res\drawable\backgroundfile.xml

@@ -1,4 +1,5 @@
 ﻿using CashCalculator.Classes.Extensions;
+using Android.Views.InputMethods;
 using System.Collections.Generic;
 using Android.Support.V7.App;
 using CashCalculator.Classes;
@@ -17,12 +18,21 @@ namespace CashCalculator.Activity
         /// <summary>
         /// Ставка в месяц
         /// </summary>
-        int Salary = 30000;
+        int Salary
+        {
+            get => int.TryParse(AllSalary.Text, out int value) ? value : Salary = 0;
+            set => RunOnUiThread(() =>
+            {
+                AllSalary.Text = value.ToString();
+                AllSalary.SetSelection(AllSalary.Text.Length);
+            });
+        }
         List<CalendarDay> CalendarDays;
         TextView MonthName,
             YearName,
-            ResultSalary,
-            AllSalary;
+            ResultSalary;
+        EditText AllSalary;
+        View AllSalaryMask;
         Button MinusButton,
             PlusButton;
         LinearLayout[] Weeks;
@@ -40,7 +50,6 @@ namespace CashCalculator.Activity
         protected override void OnStart()
         {
             base.OnStart();
-
             Weeks = new LinearLayout[]
             {
                 FindViewById<LinearLayout>(Resource.Id.Week1),
@@ -51,6 +60,14 @@ namespace CashCalculator.Activity
                 FindViewById<LinearLayout>(Resource.Id.Week6)
             };
             FrameLayout SelectDateFrame = FindViewById<FrameLayout>(Resource.Id.SelectDateFrame);
+            AllSalary = FindViewById<EditText>(Resource.Id.AllSalary);
+            MinusButton = FindViewById<Button>(Resource.Id.MinusButton);
+            PlusButton = FindViewById<Button>(Resource.Id.PlusButton);
+            AllSalaryMask = FindViewById(Resource.Id.AllSalaryMask);
+            ResultSalary = FindViewById<TextView>(Resource.Id.ResultSalary);
+            MonthName = FindViewById<TextView>(Resource.Id.MonthName);
+            YearName = FindViewById<TextView>(Resource.Id.YearName);
+
             SelectDateFrame.Touch += (s, e) =>
             {
                 if (e.Event.Action == MotionEventActions.Down)
@@ -66,31 +83,59 @@ namespace CashCalculator.Activity
                     }
                 }
             };
-
-            MinusButton = FindViewById<Button>(Resource.Id.MinusButton);
-            PlusButton = FindViewById<Button>(Resource.Id.PlusButton);
             MinusButton.Click += (s, e) =>
             {
                 if(Salary >= 1000)
                     Salary -= 1000;
-                AllSalary.Text = Salary.ToString();
                 RefrashCash();
             };
             PlusButton.Click += (s, e) =>
             {
                 if (Salary < 100000)
                     Salary += 1000;
-                AllSalary.Text = Salary.ToString();
                 RefrashCash();
             };
-            AllSalary = FindViewById<TextView>(Resource.Id.AllSalary);
-            ResultSalary = FindViewById<TextView>(Resource.Id.ResultSalary);
-            AllSalary.TextChanged += (s, e) => RefrashCash();
-            MonthName = FindViewById<TextView>(Resource.Id.MonthName);
-            YearName = FindViewById<TextView>(Resource.Id.YearName);
-            RefrashView();
+            int PreviousLength = 0;
+            AllSalary.TextChanged += (s, e) =>
+            {
+                if(AllSalary.Text.Length != PreviousLength)
+                {
+                    //Переделать на свойство Salary (get; set;)
+                    PreviousLength = AllSalary.Text.Length;
+                    if (AllSalary.Text.Length > 8)
+                    {
+                        AllSalary.Text = AllSalary.Text.Substring(0, 8);
+                        AllSalary.SetSelection(AllSalary.Text.Length);
+                    }
+                    RefrashCash();
+                }
+            };
+            AllSalary.EditorAction += (s, e) =>
+            {
+                if (e.ActionId == ImeAction.Done)
+                {
+                    AllSalaryMask.Visibility = ViewStates.Visible;
+                    AllSalary.Enabled = false;
+                    RefrashCash();
+                }
+            };
+            AllSalaryMask.LongClick += (s, e) =>
+            {
+                AllSalaryMask.Visibility = ViewStates.Gone;
+                AllSalary.Enabled = true;
+                AllSalary.SetSelection(AllSalary.Text.Length);
+                ShowKBandFocus(AllSalary);
+            };
             CalendarDay.OneDayChanged += RefrashCash;
+            RefrashView();
             RefrashCash();
+        }
+        void ShowKBandFocus(View V)
+        {
+            V.RequestFocus();
+            InputMethodManager inputMethodManager = GetSystemService(InputMethodService) as InputMethodManager;
+            inputMethodManager.ShowSoftInput(V, ShowFlags.Forced);
+            inputMethodManager.ToggleSoftInput(ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
         }
         void RefrashCash()
         {
