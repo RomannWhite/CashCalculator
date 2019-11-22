@@ -129,6 +129,7 @@ namespace CashCalculator.Activity
             RefrashView();
             RefrashCash();
         }
+        public override void OnBackPressed() => Finish();
         void ShowKBandFocus(View V)
         {
             V.RequestFocus();

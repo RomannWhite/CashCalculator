@@ -8,7 +8,7 @@ namespace CashCalculator.Activity
 {
     /// <summary>
     /// Base activity class for my app
-    /// </summary>{
+    /// </summary>
     [Activity]
     public class CustomActivity : AppCompatActivity
     {
@@ -40,28 +40,48 @@ namespace CashCalculator.Activity
             prefEditor.PutBoolean(Key, Value);
             prefEditor.Commit();
         }
+        static int salary = 30000;
         /// <summary>
         /// Зарплата за месяц
         /// </summary>
         protected static int Salary
         {
-            get => GetSavedValue(APPPREFERENCE_SALARY, 30000);
+            get
+            {
+                if (!SaveChanges)
+                    return salary;
+                return GetSavedValue(APPPREFERENCE_SALARY, salary);
+            }
             set
             {
-                if (SaveChanges)
-                    SetSavedValue(APPPREFERENCE_SALARY, value);
+                if (value >= 1 && value <= 100000)
+                {
+                    salary = value;
+                    if (SaveChanges)
+                        SetSavedValue(APPPREFERENCE_SALARY, salary);
+                }
             }
         }
+        static int overworkcoefficient = 2;
         /// <summary>
         /// Стоимость переработки
         /// </summary>
         protected static int OverWorkCoefficient
         {
-            get => GetSavedValue(APPPREFERENCE_OVERWORK, 2);
+            get
+            {
+                if (!SaveChanges)
+                    return overworkcoefficient;
+                return GetSavedValue(APPPREFERENCE_OVERWORK, overworkcoefficient);
+            }
             set
             {
-                if (SaveChanges && value >= 1)
-                    SetSavedValue(APPPREFERENCE_OVERWORK, value);
+                if(value >= 1)
+                {
+                    overworkcoefficient = value;
+                    if (SaveChanges)
+                        SetSavedValue(APPPREFERENCE_OVERWORK, overworkcoefficient = overworkcoefficient);
+                }
             }
         }
         /// <summary>

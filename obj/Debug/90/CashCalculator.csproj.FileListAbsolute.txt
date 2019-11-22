@@ -296,3 +296,4 @@ C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\stamp\_ResolveLibraryPr
 C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\res\drawable\corneredbuttonbackground.xml
 C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\android\src\md5b52cddee5f89390b5dbfe3b32118fd6e\CustomActivity.java
 C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\android\src\md5b52cddee5f89390b5dbfe3b32118fd6e\AppSettings.java
+C:\VSProjects\CashCalculator\CashCalculator\obj\Debug\90\CashCalculator.csprojAssemblyReference.cache
