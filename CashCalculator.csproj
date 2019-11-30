@@ -68,6 +68,7 @@
     <Compile Include="Activity\MainActivity.cs" />
     <Compile Include="Activity\AppSettings.cs" />
     <Compile Include="Classes\CalendarDay.cs" />
+    <Compile Include="Classes\CalendarMonth.cs" />
     <Compile Include="Classes\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,9 +138,6 @@
     <AndroidResource Include="Resources\drawable\BlackMinus.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\CashIcon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\CashIconPng.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -166,12 +164,10 @@
     <AndroidResource Include="Resources\drawable\BackButton.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\test.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\titspirit.xml" />
+    <AndroidResource Include="Resources\drawable\CashIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

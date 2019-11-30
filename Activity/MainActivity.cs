@@ -32,7 +32,7 @@ namespace CashCalculator.Activity
                     AllSalary.SetSelection(AllSalary.Text.Length);
                 });
         }
-        List<CalendarDay> CalendarDays;
+        CalendarMonth SelectedMonth;
         TextView MonthName,
             YearName,
             ResultSalary;
@@ -82,6 +82,8 @@ namespace CashCalculator.Activity
                     float Delta = LastX - e.Event.GetX();
                     if (Math.Abs(Delta) >= 100)
                     {
+                        SaveWorkDays(SelectedDate, SelectedMonth.GetWorkedDays());
+                        SaveHolidays(SelectedDate, SelectedMonth.GetHolydays());
                         SelectedDate = SelectedDate.AddMonths(Delta > 0 ? +1 : -1);
                         RefrashView();
                         RefrashCash();
@@ -140,12 +142,12 @@ namespace CashCalculator.Activity
         void RefrashCash()
         {
             //Рабочих дней
-            int WorkDays = CalendarDays.Where(c => c.IsCurrentMonth).Where(c => !c.IsDayOff).Count();
+            int WorkDays = SelectedMonth.DaysList.Where(c => c.IsCurrentMonth).Where(c => !c.IsHolyday).Count();
             //ЗП за день
             int CashPerDay = (int)((float)Salary / (float)WorkDays);
             CashPerDay -= CashPerDay % 50;
             //Отработано дней
-            int WorkedDays = CalendarDays.Where(c => c.IsCurrentMonth).Where(c => c.IsWorked).Count();
+            int WorkedDays = SelectedMonth.DaysList.Where(c => c.IsCurrentMonth).Where(c => c.IsWorked).Count();
             //Переработка
             int OverWorkedDays = Math.Max(WorkedDays - WorkDays, 0);
             //Итого
@@ -158,18 +160,12 @@ namespace CashCalculator.Activity
         {
             MonthName.Text = SelectedDate.GetMonthNameRus();
             YearName.Text = SelectedDate.ToString("yyyy");
-            DateTime Date = SelectedDate.GetStartDate();
-            CalendarDays = new List<CalendarDay>();
+            SelectedMonth = new CalendarMonth(SelectedDate, GetWorkDays(SelectedDate), GetHolidays(SelectedDate));
             for (int w = 0; w < 6; w++)
             {
                 Weeks[w].RemoveAllViews();
                 for (int d = 0; d < 7; d++)
-                {
-                    CalendarDay NewDay = new CalendarDay(Date, SelectedDate.Month);
-                    CalendarDays.Add(NewDay);
-                    Weeks[w].AddView(NewDay.GetView(this, Weeks[w]));
-                    Date = Date.AddDays(1);
-                }
+                    Weeks[w].AddView(SelectedMonth.DaysList[w * 7 + d].GetView(this, Weeks[w]));
             }
         }
     }

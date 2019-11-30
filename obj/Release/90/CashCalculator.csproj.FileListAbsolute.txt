@@ -1,2 +1,0 @@
-C:\VSProjects\CashCalculator\CashCalculator\obj\Release\90\android\assets\Mono.Android.pdb
-C:\VSProjects\CashCalculator\CashCalculator\obj\Release\90\android\bin\classes.dex

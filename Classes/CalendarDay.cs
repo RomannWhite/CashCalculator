@@ -11,55 +11,62 @@ namespace CashCalculator.Classes
     class CalendarDay
     {
         #region Holidays
-        DateTime[] Holidays = new DateTime[]
-        {
-            new DateTime(2019, 1, 1),
-            new DateTime(2019, 1, 2),
-            new DateTime(2019, 1, 3),
-            new DateTime(2019, 1, 4),
-            new DateTime(2019, 1, 7),
-            new DateTime(2019, 1, 8),
+        //DateTime[] Holidays = new DateTime[]
+        //{
+        //    new DateTime(2019, 1, 1),
+        //    new DateTime(2019, 1, 2),
+        //    new DateTime(2019, 1, 3),
+        //    new DateTime(2019, 1, 4),
+        //    new DateTime(2019, 1, 7),
+        //    new DateTime(2019, 1, 8),
 
-            new DateTime(2019, 3, 8),
+        //    new DateTime(2019, 3, 8),
 
-            new DateTime(2019, 5, 1),
-            new DateTime(2019, 5, 2),
-            new DateTime(2019, 5, 3),
-            new DateTime(2019, 5, 9),
-            new DateTime(2019, 5, 10),
+        //    new DateTime(2019, 5, 1),
+        //    new DateTime(2019, 5, 2),
+        //    new DateTime(2019, 5, 3),
+        //    new DateTime(2019, 5, 9),
+        //    new DateTime(2019, 5, 10),
 
-            new DateTime(2019, 6, 12),
+        //    new DateTime(2019, 6, 12),
 
-            new DateTime(2019, 11, 4),
+        //    new DateTime(2019, 11, 4),
 
-            new DateTime(2020, 1, 1),
-            new DateTime(2020, 1, 2),
-            new DateTime(2020, 1, 3),
-            new DateTime(2020, 1, 6),
-            new DateTime(2020, 1, 7),
-            new DateTime(2020, 1, 8),
+        //    new DateTime(2020, 1, 1),
+        //    new DateTime(2020, 1, 2),
+        //    new DateTime(2020, 1, 3),
+        //    new DateTime(2020, 1, 6),
+        //    new DateTime(2020, 1, 7),
+        //    new DateTime(2020, 1, 8),
 
-            new DateTime(2020, 2, 24),
+        //    new DateTime(2020, 2, 24),
 
-            new DateTime(2020, 3, 9),
+        //    new DateTime(2020, 3, 9),
 
-            new DateTime(2020, 5, 1),
-            new DateTime(2020, 5, 4),
-            new DateTime(2020, 5, 5),
-            new DateTime(2020, 5, 11),
+        //    new DateTime(2020, 5, 1),
+        //    new DateTime(2020, 5, 4),
+        //    new DateTime(2020, 5, 5),
+        //    new DateTime(2020, 5, 11),
 
-            new DateTime(2020, 6, 12),
+        //    new DateTime(2020, 6, 12),
 
-            new DateTime(2020, 11, 4)
-        };
+        //    new DateTime(2020, 11, 4)
+        //};
         #endregion
         public delegate void VoidDelegate();
         public static event VoidDelegate OneDayChanged;
-        DateTime Date;
+        /// <summary>
+        /// Дата
+        /// </summary>
+        public DateTime Date
+        {
+            get;
+            private set;
+        }
         /// <summary>
         /// Выходной
         /// </summary>
-        public bool IsDayOff;
+        public bool IsHolyday;
         /// <summary>
         /// Отработан
         /// </summary>
@@ -68,17 +75,18 @@ namespace CashCalculator.Classes
         /// Текущий месяц
         /// </summary>
         public bool IsCurrentMonth;
+
+
         public CalendarDay(DateTime date, int month)
         {
             Date = date;
             IsCurrentMonth = date.Month == month;
 
-            IsDayOff = date.GetDayOfWeek() > 4;
-            if (!IsDayOff)
-                IsDayOff = Holidays.Contains(date.Date);
-
-            if (IsCurrentMonth && !IsDayOff)
-                IsWorked = true;
+            //IsHolyday = date.GetDayOfWeek() > 4;
+            //if (!IsHolyday)
+            //    IsHolyday = Holidays.Contains(date.Date);
+            //if (IsCurrentMonth && !IsHolyday)
+            //    IsWorked = true;
         }
         public View GetView(Context C, ViewGroup ParentLayout)
         {
@@ -89,7 +97,7 @@ namespace CashCalculator.Classes
                 if (Date.Date == DateTime.Now.Date)
                     Day.SetBackgroundDrawable(C.GetDrawable(Resource.Drawable.TodayBorder));
 
-                Day.FindViewById<TextView>(Resource.Id.Tittle).SetTextColor(IsDayOff ? Color.Red : Color.White);
+                Day.FindViewById<TextView>(Resource.Id.Tittle).SetTextColor(IsHolyday ? Color.Red : Color.White);
                 Day.FindViewById(Resource.Id.IsWorked).Visibility = IsWorked ? ViewStates.Visible : ViewStates.Gone;
 
                 Day.Click += (s, e) =>
@@ -101,7 +109,7 @@ namespace CashCalculator.Classes
                 Day.LongClick += (s, e) =>
                 {
                     Day.FindViewById<TextView>(Resource.Id.Tittle).SetTextColor(
-                    (IsDayOff = !IsDayOff) ? Color.Red : Color.White);
+                    (IsHolyday = !IsHolyday) ? Color.Red : Color.White);
                     OneDayChanged?.Invoke();
                 };
             }
